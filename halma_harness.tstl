@@ -1,0 +1,28 @@
+import halma_pt2  # Import your game file
+
+# Initialize the game
+define board = halma_pt2.Board(None)  # Pass None for `root` since we are not testing GUI
+
+# Test piece movement
+action select_piece(row in range(0, board.size), col in range(0, board.size)):
+    piece = board.grid[row][col]
+    if piece and piece[1] == board.current_player:
+        board.selectPiece(row, col)
+
+action move_piece(row in range(0, board.size), col in range(0, board.size)):
+    if board.current_piece and (row, col) in board.generateMoves(*board.current_piece):
+        board.move(row, col)
+
+# Test AI move
+action ai_move():
+    if board.current_player == "red":
+        board.AI_makeMove()
+
+# Test scoring
+property scoring():
+    assert board.blue_score >= 0 and board.red_score >= 0
+
+# Test win conditions
+property check_winner():
+    winner = board.checkWinner()
+    assert winner in [None, "Blue", "Red"]
