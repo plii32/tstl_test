@@ -17,6 +17,8 @@ log: POST 1 <halma.Board>.current_player
 
 # State pools
 pool: <halma.Board> 1 CONST
+pool: <int> 2 CONST  # Declare pool for row
+pool: <int> 3 CONST  # Declare pool for col
 
 # Properties
 property: valid_scores(<halma.Board>)
@@ -24,17 +26,18 @@ property: valid_player(<halma.Board>)
 
 # Initialization
 <halma.Board> := halma.Board(root=None)
+<int> := <[0..7]>  # Initialize row and col pools with valid indices
 
 # Actions
 # Select a piece
-~<halma.Board>.selectPiece(<[0..7]>, <[0..7]>) -> \
-   <halma.Board>.grid[<1>][<2>] is not None \
-   and <halma.Board>.grid[<1>][<2>][1] == <halma.Board>.current_player
+~<halma.Board>.selectPiece(<int>, <int>) -> \
+   <halma.Board>.grid[<2>][<3>] is not None \
+   and <halma.Board>.grid[<2>][<3>][1] == <halma.Board>.current_player
 
 # Move a piece
-~<halma.Board>.move(<[0..7]>, <[0..7]>) -> \
+~<halma.Board>.move(<int>, <int>) -> \
    <halma.Board>.current_piece is not None \
-   and (<1>, <2>) in <halma.Board>.generateMoves(*<halma.Board>.current_piece)
+   and (<2>, <3>) in <halma.Board>.generateMoves(*<halma.Board>.current_piece)
 
 # AI makes a move
 <halma.Board>.AI_makeMove()
