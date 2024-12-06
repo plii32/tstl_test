@@ -17,7 +17,7 @@ log: POST 1 <halma.Board>.current_player
 
 # State pools
 pool: <halma.Board> 1 CONST  # Pool for the game board
-pool: <int> index_pool CONST  # One pool for both row and column indices
+pool: <int> 4 CONST  # One pool for both row and column indices
 
 # Properties
 property: valid_scores(<halma.Board>)
