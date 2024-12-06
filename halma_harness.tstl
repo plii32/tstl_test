@@ -24,9 +24,9 @@ pool: <int> col_pool CONST  # Pool for column indices (range 0 to 7)
 property: valid_scores(<halma.Board>)
 property: valid_player(<halma.Board>)
 
-# Initialization of integer pools with ranges
-row_pool := <[0..7]>  # Range for row indices (valid board indices)
-col_pool := <[0..7]>  # Range for column indices (valid board indices)
+# Initialization of integer pools with ranges (valid values for row/col indices)
+row_pool := <[0..7]>  # Row pool for valid indices
+col_pool := <[0..7]>  # Column pool for valid indices
 
 # Initialization of the Board
 <halma.Board> := halma.Board(root=None)
