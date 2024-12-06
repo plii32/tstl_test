@@ -17,17 +17,19 @@ log: POST 1 <halma.Board>.current_player
 
 # State pools
 pool: <halma.Board> 1 CONST  # Pool for the game board
-pool: <int> row_pool CONST  # Pool for row indices
-pool: <int> col_pool CONST  # Pool for column indices
+pool: <int> row_pool CONST  # Pool for row indices (range 0 to 7)
+pool: <int> col_pool CONST  # Pool for column indices (range 0 to 7)
 
 # Properties
 property: valid_scores(<halma.Board>)
 property: valid_player(<halma.Board>)
 
-# Initialization
+# Initialization of integer pools with ranges
+row_pool := <[0..7]>  # Range for row indices (valid board indices)
+col_pool := <[0..7]>  # Range for column indices (valid board indices)
+
+# Initialization of the Board
 <halma.Board> := halma.Board(root=None)
-row_pool := <[0..7]>  # Initialize row pool with valid indices
-col_pool := <[0..7]>  # Initialize column pool with valid indices
 
 # Actions
 # Select a piece
