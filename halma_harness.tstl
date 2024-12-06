@@ -26,9 +26,8 @@ property: valid_player(<halma.Board>)
 
 # Initialization
 <halma.Board> := halma.Board(root=None)
-<int> := <[0..7]>  # Populate row and column pools
-row_pool := <int>
-col_pool := <int>
+row_pool := <[0..7]>  # Initialize row pool with valid indices
+col_pool := <[0..7]>  # Initialize column pool with valid indices
 
 # Actions
 # Select a piece
