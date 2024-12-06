@@ -1,28 +1,43 @@
-import halma_pt2  # Import your game file
+@import halma_pt2 as halma
 
-# Initialize the game
-define board = halma_pt2.Board(root=None)
+# Define helper functions for properties
+<@
+def valid_scores(board):
+    return board.blue_score >= 0 and board.red_score >= 0
 
-# Test piece movement
-action select_piece(row in range(0, board.size), col in range(0, board.size)):
-    piece = board.grid[row][col]
-    if piece and piece[1] == board.current_player:
-        board.selectPiece(row, col)
+def valid_player(board):
+    return board.current_player in ["blue", "red"]
+@>
 
-action move_piece(row in range(0, board.size), col in range(0, board.size)):
-    if board.current_piece and (row, col) in board.generateMoves(*board.current_piece):
-        board.move(row, col)
+# Logging
+log: POST 1 <halma.Board>.grid
+log: POST 1 <halma.Board>.blue_score
+log: POST 1 <halma.Board>.red_score
+log: POST 1 <halma.Board>.current_player
 
-# Test AI move
-action ai_move():
-    if board.current_player == "red":
-        board.AI_makeMove()
+# State pools
+pool: <halma.Board> 1 CONST
 
-# Test scoring
-property scoring():
-    assert board.blue_score >= 0 and board.red_score >= 0
+# Properties
+property: valid_scores(<halma.Board>)
+property: valid_player(<halma.Board>)
 
-# Test win conditions
-property check_winner():
-    winner = board.checkWinner()
-    assert winner in [None, "Blue", "Red"]
+# Initialization
+<halma.Board> := halma.Board(root=None)
+
+# Actions
+# Select a piece
+~<halma.Board>.selectPiece(<[0..7]>, <[0..7]>) -> \
+   <halma.Board>.grid[<1>][<2>] is not None \
+   and <halma.Board>.grid[<1>][<2>][1] == <halma.Board>.current_player
+
+# Move a piece
+~<halma.Board>.move(<[0..7]>, <[0..7]>) -> \
+   <halma.Board>.current_piece is not None \
+   and (<1>, <2>) in <halma.Board>.generateMoves(*<halma.Board>.current_piece)
+
+# AI makes a move
+<halma.Board>.AI_makeMove()
+
+# Check win conditions
+~<halma.Board>.checkWinner()
