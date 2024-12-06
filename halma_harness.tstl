@@ -1,7 +1,7 @@
 import halma_pt2  # Import your game file
 
 # Initialize the game
-define board = halma_pt2.Board(None)  # Pass None for `root` since we are not testing GUI
+define board = halma_pt2.Board(root=None)
 
 # Test piece movement
 action select_piece(row in range(0, board.size), col in range(0, board.size)):
