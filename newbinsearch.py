@@ -8,6 +8,9 @@ class BST:
     def __init__(self):
         self.root = None
 
+    def __contains__(self, key):
+        return self.find(key) is not None
+
     def insert(self, key):
         if self.root is None:
             self.root = Node(key)
