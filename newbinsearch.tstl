@@ -28,7 +28,7 @@ pool: <int> 4
 pool: <newbinsearch> 3 OPAQUE REF
 
 property: heightOk(<newbinsearch>)
-property: <newbinsearch>.check_balanced()
+property: <newbinsearch>.is_balanced()
 
 <int> := <[1..20]>
 
