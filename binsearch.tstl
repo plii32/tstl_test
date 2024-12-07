@@ -1,0 +1,62 @@
+@import bst
+@import math
+
+<@
+def heightOk(tree):
+    h = tree.tree_height()
+    l = len(tree.inorder())
+    if (l == 0):
+       return True
+    m = math.log(l, 2)
+    assert(pre<(tree.inorder())> == tree.inorder())
+    return h <= (m + 1)
+
+def items(s):
+    l = []
+    for i in s:
+       l.append(i)
+    return sorted(l)
+
+def test_after_reduce(sut): 
+    sut.setLog(0)
+@>
+
+log: 1 <bst>.inorder()
+log: POST 1 <bst>.inorder()
+
+pool: <int> 4
+pool: <bst> 3 OPAQUE REF
+
+property: heightOk(<bst>)
+property: <bst>.check_balanced()
+
+<int> := <[1..20]>
+
+<bst> := bst.BST()
+
+~<bst>.insert(<int>) => \
+   (len(<bst,1>.inorder()) == pre<(len(<bst,1>.inorder()))>+1) \
+   or pre<(<bst,1>.find(<int,1>))>
+
+~<bst>.delete(<int>) => \
+   (len(<bst,1>.inorder()) == pre<(len(<bst,1>.inorder()))>-1) \
+   or not pre<((<bst,1>.find(<int,1>)))>
+
+~<bst>.find(<int>)
+
+<bst>.inorder()
+
+~<bst> == ~<bst>
+
+len(<bst,1>.inorder()) > 5 -> <bst>.display()
+
+reference: bst.BST ==> set
+reference: insert ==> add
+reference: delete ==> discard
+reference: find ==> __contains__
+
+reference: METHOD(inorder) ==> CALL(items)
+reference: METHOD(display) ==> CALL(print)
+
+compare: find
+compare: inorder
