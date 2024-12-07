@@ -1,3 +1,4 @@
+
 @import binsearch
 @import math
 
@@ -21,36 +22,98 @@ def test_after_reduce(sut):
     sut.setLog(0)
 @>
 
-log: 1 <bst>.inorder()
-log: POST 1 <bst>.inorder()
+log: 1 <binsearch>.inorder()
+log: POST 1 <binsearch>.inorder()
 
 pool: <int> 4
-pool: <bst> 3 OPAQUE REF
+pool: <binsearch> 3 OPAQUE REF
 
-property: heightOk(<bst>)
-property: <bst>.check_balanced()
+property: heightOk(<binsearch>)
+property: <binsearch>.check_balanced()
 
 <int> := <[1..20]>
 
-<bst> := bst.BST()
+<binsearch> := binsearch.BST()
 
-~<bst>.insert(<int>) => \
-   (len(<bst,1>.inorder()) == pre<(len(<bst,1>.inorder()))>+1) \
-   or pre<(<bst,1>.find(<int,1>))>
+~<binsearch>.insert(<int>) => \
+   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>+1) \
+   or pre<(<binsearch,1>.find(<int,1>))>
 
-~<bst>.delete(<int>) => \
-   (len(<bst,1>.inorder()) == pre<(len(<bst,1>.inorder()))>-1) \
-   or not pre<((<bst,1>.find(<int,1>)))>
+~<binsearch>.delete(<int>) => \
+   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>-1) \
+   or not pre<((<binsearch,1>.find(<int,1>)))>
 
-~<bst>.find(<int>)
+~<binsearch>.find(<int>)
 
-<bst>.inorder()
+<binsearch>.inorder()
 
-~<bst> == ~<bst>
+~<binsearch> == ~<binsearch>
 
-len(<bst,1>.inorder()) > 5 -> <bst>.display()
+len(<binsearch,1>.inorder()) > 5 -> <binsearch>.display()
 
-reference: bst.BST ==> set
+reference: binsearch.BST ==> set
+reference: insert ==> add
+reference: delete ==> discard
+reference: find ==> __contains__
+
+reference: METHOD(inorder) ==> CALL(items)
+reference: METHOD(display) ==> CALL(print)
+
+compare: find
+compare: inorder
+@import binsearch
+@import math
+
+<@
+def heightOk(tree):
+    h = tree.tree_height()
+    l = len(tree.inorder())
+    if (l == 0):
+       return True
+    m = math.log(l, 2)
+    assert(pre<(tree.inorder())> == tree.inorder())
+    return h <= (m + 1)
+
+def items(s):
+    l = []
+    for i in s:
+       l.append(i)
+    return sorted(l)
+
+def test_after_reduce(sut): 
+    sut.setLog(0)
+@>
+
+log: 1 <binsearch>.inorder()
+log: POST 1 <binsearch>.inorder()
+
+pool: <int> 4
+pool: <binsearch> 3 OPAQUE REF
+
+property: heightOk(<binsearch>)
+property: <binsearch>.check_balanced()
+
+<int> := <[1..20]>
+
+<binsearch> := binsearch.BST()
+
+~<binsearch>.insert(<int>) => \
+   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>+1) \
+   or pre<(<binsearch,1>.find(<int,1>))>
+
+~<binsearch>.delete(<int>) => \
+   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>-1) \
+   or not pre<((<binsearch,1>.find(<int,1>)))>
+
+~<binsearch>.find(<int>)
+
+<binsearch>.inorder()
+
+~<binsearch> == ~<binsearch>
+
+len(<binsearch,1>.inorder()) > 5 -> <binsearch>.display()
+
+reference: binsearch.BST ==> set
 reference: insert ==> add
 reference: delete ==> discard
 reference: find ==> __contains__
