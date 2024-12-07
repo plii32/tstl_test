@@ -1,0 +1,79 @@
+@import newbinsearch
+@import math
+
+<@
+def heightOk(tree):
+    h = tree.tree_height()
+    l = len(tree.inorder())
+    if (l == 0):
+       return True
+    m = math.log(l, 2)
+    assert(pre<(tree.inorder())> == tree.inorder())
+    return h <= (m + 1)
+
+def items(s):
+    l = []
+    for i in s:
+       l.append(i)
+    return sorted(l)
+
+def test_after_reduce(sut): 
+    sut.setLog(0)
+@>
+
+log: 1 <binsearch>.inorder()
+log: POST 1 <binsearch>.inorder()
+
+pool: <int> 4
+pool: <binsearch> 3 OPAQUE REF
+
+property: heightOk(<binsearch>)
+property: <binsearch>.check_balanced()
+
+<int> := <[1..20]>
+
+<binsearch> := binsearch.BST()
+
+~<binsearch>.insert(<int>) => \
+   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>+1) \
+   or pre<(<binsearch,1>.find(<int,1>))>
+
+~<binsearch>.delete(<int>) => \
+   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>-1) \
+   or not pre<((<binsearch,1>.find(<int,1>)))>
+
+~<binsearch>.find(<int>)
+
+<binsearch>.inorder()
+
+~<binsearch> == ~<binsearch>
+
+len(<binsearch,1>.inorder()) > 5 -> <binsearch>.display()
+
+reference: binsearch.BST ==> set
+reference: insert ==> add
+reference: delete ==> discard
+reference: find ==> __contains__
+
+reference: METHOD(inorder) ==> CALL(items)
+reference: METHOD(display) ==> CALL(print)
+
+compare: find
+compare: inorder
+
+# New test for find_min and find_max
+log: 1 <binsearch>.find_min()
+log: POST 1 <binsearch>.find_max()
+
+# Test successor and predecessor
+log: 1 <binsearch>.find_successor(<int>)
+log: POST 1 <binsearch>.find_predecessor(<int>)
+
+# Test tree height
+log: 1 <binsearch>.tree_height()
+
+# Test if tree is balanced
+log: 1 <binsearch>.is_balanced()
+
+# Test level order traversal
+log: 1 <binsearch>.level_order()
