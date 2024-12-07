@@ -21,36 +21,36 @@ def test_after_reduce(sut):
     sut.setLog(0)
 @>
 
-log: 1 <binsearch>.inorder()
-log: POST 1 <binsearch>.inorder()
+log: 1 <newbinsearch>.inorder()
+log: POST 1 <newbinsearch>.inorder()
 
 pool: <int> 4
-pool: <binsearch> 3 OPAQUE REF
+pool: <newbinsearch> 3 OPAQUE REF
 
-property: heightOk(<binsearch>)
-property: <binsearch>.check_balanced()
+property: heightOk(<newbinsearch>)
+property: <newbinsearch>.check_balanced()
 
 <int> := <[1..20]>
 
-<binsearch> := binsearch.BST()
+<newbinsearch> := newbinsearch.BST()
 
-~<binsearch>.insert(<int>) => \
-   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>+1) \
-   or pre<(<binsearch,1>.find(<int,1>))>
+~<newbinsearch>.insert(<int>) => \
+   (len(<newbinsearch,1>.inorder()) == pre<(len(<newbinsearch,1>.inorder()))>+1) \
+   or pre<(<newbinsearch,1>.find(<int,1>))>
 
-~<binsearch>.delete(<int>) => \
-   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>-1) \
-   or not pre<((<binsearch,1>.find(<int,1>)))>
+~<newbinsearch>.delete(<int>) => \
+   (len(<newbinsearch,1>.inorder()) == pre<(len(<newbinsearch,1>.inorder()))>-1) \
+   or not pre<((<newbinsearch,1>.find(<int,1>)))>
 
-~<binsearch>.find(<int>)
+~<newbinsearch>.find(<int>)
 
-<binsearch>.inorder()
+<newbinsearch>.inorder()
 
-~<binsearch> == ~<binsearch>
+~<newbinsearch> == ~<newbinsearch>
 
-len(<binsearch,1>.inorder()) > 5 -> <binsearch>.display()
+len(<newbinsearch,1>.inorder()) > 5 -> <newbinsearch>.display()
 
-reference: binsearch.BST ==> set
+reference: newbinsearch.BST ==> set
 reference: insert ==> add
 reference: delete ==> discard
 reference: find ==> __contains__
@@ -62,18 +62,18 @@ compare: find
 compare: inorder
 
 # New test for find_min and find_max
-log: 1 <binsearch>.find_min()
-log: POST 1 <binsearch>.find_max()
+log: 1 <newbinsearch>.find_min()
+log: POST 1 <newbinsearch>.find_max()
 
 # Test successor and predecessor
-log: 1 <binsearch>.find_successor(<int>)
-log: POST 1 <binsearch>.find_predecessor(<int>)
+log: 1 <newbinsearch>.find_successor(<int>)
+log: POST 1 <newbinsearch>.find_predecessor(<int>)
 
 # Test tree height
-log: 1 <binsearch>.tree_height()
+log: 1 <newbinsearch>.tree_height()
 
 # Test if tree is balanced
-log: 1 <binsearch>.is_balanced()
+log: 1 <newbinsearch>.is_balanced()
 
 # Test level order traversal
-log: 1 <binsearch>.level_order()
+log: 1 <newbinsearch>.level_order()
