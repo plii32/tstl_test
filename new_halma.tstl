@@ -23,7 +23,7 @@ log: POST 1 board.red_score
 log: POST 1 board.current_player
 
 # Define state pools
-pool: <int> row_or_col  # Integer pool for board indices (range [0..7])
+pool: <int> 4 CONST  # Integer pool for board indices (range [0..7])
 pool: <halmaBoard> board  # Pool for the Halma game board object
 
 # Properties to check after each test step
