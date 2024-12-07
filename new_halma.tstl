@@ -17,37 +17,35 @@ def valid_game_state(board):
 @>
 
 # Logging -- Monitor key states during testing
-log: POST 1 <halma.Board>.grid
-log: POST 1 <halma.Board>.blue_score
-log: POST 1 <halma.Board>.red_score
-log: POST 1 <halma.Board>.current_player
+log: POST 1 board.grid
+log: POST 1 board.blue_score
+log: POST 1 board.red_score
+log: POST 1 board.current_player
 
 # Define state pools
-pool: <int> 4 CONST  # Integer pool for board indices (range [0..7])
-pool: <halma.Board> 1 CONST  # Pool for the Halma game board
+pool: <int> row_or_col  # Integer pool for board indices (range [0..7])
+pool: <halmaBoard> board  # Pool for the Halma game board object
 
 # Properties to check after each test step
-property: valid_scores(<halma.Board>)
-property: valid_player(<halma.Board>)
-property: valid_game_state(<halma.Board>)
+property: valid_scores(board)
+property: valid_player(board)
+property: valid_game_state(board)
 
 # Initialize the game board
-<halma.Board> := halma.Board(root=None)
+board := halma.Board(root=None)
 
 # Initialize an integer pool for board indices
-<int> := <[0..7]>
+row_or_col := <[0..7]>
 
 # Actions: Select a piece
-# Guard ensures the piece exists and belongs to the current player
-~<halma.Board>.selectPiece(<int>, <int>) -> \
-   <halma.Board>.grid[<int>, <int>] is not None and \
-   <halma.Board>.grid[<int>, <int>][1] == <halma.Board>.current_player
+~board.selectPiece(row_or_col, row_or_col) -> \
+   board.grid[row_or_col, row_or_col] is not None and \
+   board.grid[row_or_col, row_or_col][1] == board.current_player
 
 # Actions: Move a piece
-# Guard ensures a piece is selected and the move is valid
-~<halma.Board>.move(<int>, <int>) -> \
-   <halma.Board>.current_piece is not None and \
-   (<int>, <int>) in <halma.Board>.generateMoves(*<halma.Board>.current_piece)
+~board.move(row_or_col, row_or_col) -> \
+   board.current_piece is not None and \
+   (row_or_col, row_or_col) in board.generateMoves(*board.current_piece)
 
 # Check winner (after each step)
-<halma.Board>.checkWinner()
+board.checkWinner()
