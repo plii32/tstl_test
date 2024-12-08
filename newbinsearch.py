@@ -8,7 +8,7 @@ class BST:
     def __init__(self):
         self.root = None
 
-     def __contains__(self, key):
+    def __contains__(self, key):
         return self.find(key) is not None
 
     def insert(self, key):
