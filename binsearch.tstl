@@ -1,4 +1,4 @@
-@import bst
+@import binsearch
 @import math
 
 <@
@@ -21,34 +21,34 @@ def test_after_reduce(sut):
     sut.setLog(0)
 @>
 
-log: 1 <bst>.inorder()
-log: POST 1 <bst>.inorder()
+log: 1 <binsearch>.inorder()
+log: POST 1 <binsearch>.inorder()
 
 pool: <int> 4
-pool: <bst> 3 OPAQUE REF
+pool: <binsearch> 3 OPAQUE REF
 
 property: heightOk(<bst>)
-property: <bst>.check_balanced()
+property: <binsearch>.is_balanced()
 
 <int> := <[1..20]>
 
-<bst> := bst.BST()
+<binsearch> := binsearch.BST()
 
-~<bst>.insert(<int>) => \
-   (len(<bst,1>.inorder()) == pre<(len(<bst,1>.inorder()))>+1) \
-   or pre<(<bst,1>.find(<int,1>))>
+~<binsearch>.insert(<int>) => \
+   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>+1) \
+   or pre<(<binsearch,1>.find(<int,1>))>
 
 ~<bst>.delete(<int>) => \
-   (len(<bst,1>.inorder()) == pre<(len(<bst,1>.inorder()))>-1) \
-   or not pre<((<bst,1>.find(<int,1>)))>
+   (len(<binsearch,1>.inorder()) == pre<(len(<binsearch,1>.inorder()))>-1) \
+   or not pre<((<binsearch,1>.find(<int,1>)))>
 
-~<bst>.find(<int>)
+~<binsearch>.find(<int>)
 
-<bst>.inorder()
+<binsearch>.inorder()
 
-~<bst> == ~<bst>
+~<binsearch> == ~<bst>
 
-len(<bst,1>.inorder()) > 5 -> <bst>.display()
+len(<binsearch,1>.inorder()) > 5 -> <binsearch>.display()
 
 reference: bst.BST ==> set
 reference: insert ==> add
